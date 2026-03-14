@@ -320,7 +320,6 @@ function renderExpiredState(container, data) {
     '&#x2717; ' + esc(data.identifier) + ' <span class="badge badge-orange">' + t('nip05_expired') + '</span></div>' +
     '<div class="status-row"><span class="status-label">' + t('nip05_expires') + '</span><span class="status-value">' + expDate + '</span></div>' +
     '<div class="status-row"><span class="status-label">' + t('nip05_plan') + '</span><span class="status-value">' + priceSats.toLocaleString() + ' ' + t('nip05_sats') + '</span></div>' +
-    renderPricingInfo() +
     '<div class="btn-row" style="margin-top:16px">' +
     '<button id="nip05-renew" class="btn">' + t('nip05_renew') + '</button>' +
     '</div>' +
@@ -335,7 +334,6 @@ function renderRegisterForm(container) {
   container.innerHTML = '<div class="nip05-card">' +
     '<h2><span class="badge badge-purple">' + t('nip05') + '</span> ' + t('nip05_register') + '</h2>' +
     '<div class="form-hint" style="margin-bottom:12px">' + t('nip05_desc') + '</div>' +
-    renderPricingInfo() +
     '<div class="form-row" style="margin-top:16px">' +
     '<input id="nip05-input" class="input" style="max-width:200px" placeholder="' + t('nip05_username') + '" maxlength="16" spellcheck="false">' +
     '<span class="form-suffix">@txid.uk</span>' +
@@ -505,19 +503,6 @@ function renderLnComingSoon(username) {
     '<div class="ln-coming-title">&#x26A1; ' + t('ln_forward_title') + ' <span class="badge-coming">' + t('coming_soon') + '</span></div>' +
     '<div class="ln-coming-desc">' + esc(username) + '@txid.uk ' + t('ln_forward_desc') + '<br>' + t('ln_coming_soon') + '</div>' +
     '</div>';
-}
-
-// ── Pricing info card ──
-function renderPricingInfo() {
-  return '<div class="pricing-info-card">' +
-    '<div class="discount-badge">&#x1F525; ' + t('nip05_price_promo') + '</div>' +
-    '<div style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.72rem;margin-top:8px">' +
-    '<span style="color:var(--text3)">1 char</span><span><span class="price-original">50,000</span> <span class="price-discount">40,000 sats</span></span>' +
-    '<span style="color:var(--text3)">2 chars</span><span><span class="price-original">40,000</span> <span class="price-discount">30,000 sats</span></span>' +
-    '<span style="color:var(--text3)">3 chars</span><span><span class="price-original">30,000</span> <span class="price-discount">20,000 sats</span></span>' +
-    '<span style="color:var(--text3)">4 chars</span><span><span class="price-original">20,000</span> <span class="price-discount">10,000 sats</span></span>' +
-    '<span style="color:var(--text3)">5+ chars</span><span><span class="price-original">10,000</span> <span class="price-discount">5,000 sats</span></span>' +
-    '</div></div>';
 }
 
 // ── Public Profile Page ──
