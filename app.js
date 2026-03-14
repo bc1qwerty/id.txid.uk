@@ -548,6 +548,11 @@ function renderProfile(username) {
   });
 }
 
+// ── CTA login trigger ──
+document.getElementById('cta-login')?.addEventListener('click', function () {
+  if (window.txidAuth) txidAuth.openLogin();
+});
+
 // ── Event listeners ──
 document.getElementById('lang-btn')?.addEventListener('click', function () {
   document.getElementById('lang-menu')?.classList.toggle('open');
