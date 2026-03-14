@@ -221,9 +221,8 @@ function renderMain() {
     return;
   }
 
-  // Logged in: hide CTA, show management
+  // Logged in: hide CTA, keep pricing visible
   if (cta) cta.classList.add('hidden');
-  if (pricing) pricing.classList.add('hidden');
   app.innerHTML = '<div class="nip05-card"><div style="text-align:center;color:var(--text3);padding:20px">...</div></div>';
   loadNip05Management();
 }
