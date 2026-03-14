@@ -30,6 +30,7 @@ var T = {
     profile_relays: '릴레이',
     profile_follow: 'Nostr에서 팔로우',
     profile_ln: 'Lightning Address',
+    nip05_price_promo: '기간한정 할인 중!',
     price_per_year: 'sats/년',
     light_mode: '라이트 모드로 전환',
     dark_mode: '다크 모드로 전환',
@@ -61,6 +62,7 @@ var T = {
     profile_relays: 'Relays',
     profile_follow: 'Follow on Nostr',
     profile_ln: 'Lightning Address',
+    nip05_price_promo: 'Limited-time discount!',
     price_per_year: 'sats/year',
     light_mode: 'Switch to light mode',
     dark_mode: 'Switch to dark mode',
@@ -92,6 +94,7 @@ var T = {
     profile_relays: 'リレー',
     profile_follow: 'Nostrでフォロー',
     profile_ln: 'Lightning Address',
+    nip05_price_promo: '期間限定割引中！',
     price_per_year: 'sats/年',
     light_mode: 'ライトモードに切替',
     dark_mode: 'ダークモードに切替',
@@ -117,9 +120,15 @@ function api(path, opts) {
 }
 
 // ── Premium pricing ──
-var PRICING = { 1: 50000, 2: 50000, 3: 20000, 4: 10000 };
-var DEFAULT_PRICE = 5000;
+var PRICING = { 1: 50000, 2: 40000, 3: 30000, 4: 20000 };
+var DEFAULT_PRICE = 10000;
+var DISCOUNT = { 1: 40000, 2: 30000, 3: 20000, 4: 10000 };
+var DISCOUNT_DEFAULT = 5000;
 function getPriceSats(username) {
+  var len = (username || '').length;
+  return DISCOUNT[len] || DISCOUNT_DEFAULT;
+}
+function getOriginalPrice(username) {
   var len = (username || '').length;
   return PRICING[len] || DEFAULT_PRICE;
 }
@@ -336,11 +345,12 @@ function renderRegisterForm(container) {
   input.addEventListener('input', function () {
     var val = input.value.toLowerCase().trim();
     if (val.length >= 1) {
-      var price = getPriceSats(val);
-      priceEl.textContent = price.toLocaleString() + ' ' + t('price_per_year');
+      var original = getOriginalPrice(val);
+      var discount = getPriceSats(val);
+      priceEl.innerHTML = '<span class="price-original">' + original.toLocaleString() + '</span> <span class="price-discount">' + discount.toLocaleString() + ' ' + t('price_per_year') + '</span>';
       priceEl.style.opacity = '1';
     } else {
-      priceEl.textContent = '';
+      priceEl.innerHTML = '';
     }
   });
 
@@ -363,13 +373,14 @@ function renderRegisterForm(container) {
 function showConfirm(container, username) {
   var identifier = username + '@txid.uk';
   var priceSats = getPriceSats(username);
+  var originalPrice = getOriginalPrice(username);
 
   container.innerHTML = '<div class="nip05-card">' +
     '<h2><span class="badge badge-purple">' + t('nip05') + '</span> ' + t('nip05_confirm') + '</h2>' +
     '<div class="form-hint">' + t('nip05_confirm_msg') + '</div>' +
     '<div class="confirm-card">' +
     '<div class="confirm-id">' + esc(identifier) + '</div>' +
-    '<div class="confirm-price">' + t('nip05_plan') + ' &middot; ' + priceSats.toLocaleString() + ' sats</div>' +
+    '<div class="confirm-price">' + t('nip05_plan') + ' &middot; <span class="price-original">' + originalPrice.toLocaleString() + '</span> <span class="price-discount">' + priceSats.toLocaleString() + ' sats</span></div>' +
     '</div>' +
     '<div class="btn-row">' +
     '<button id="nip05-confirm-btn" class="btn">&#x26A1; ' + t('nip05_confirm_proceed') + '</button>' +
@@ -444,12 +455,13 @@ function showPayment(container, data) {
 
 function startRenewal(container, username) {
   var priceSats = getPriceSats(username);
+  var originalPrice = getOriginalPrice(username);
   container.innerHTML = '<div class="nip05-card">' +
     '<h2><span class="badge badge-purple">' + t('nip05') + '</span> ' + t('nip05_confirm') + '</h2>' +
     '<div class="form-hint">' + t('nip05_confirm_msg') + '</div>' +
     '<div class="confirm-card">' +
     '<div class="confirm-id">' + t('nip05_renew_desc') + '</div>' +
-    '<div class="confirm-price">' + priceSats.toLocaleString() + ' sats</div>' +
+    '<div class="confirm-price"><span class="price-original">' + originalPrice.toLocaleString() + '</span> <span class="price-discount">' + priceSats.toLocaleString() + ' sats</span></div>' +
     '</div>' +
     '<div class="btn-row">' +
     '<button id="nip05-renew-confirm" class="btn">&#x26A1; ' + t('nip05_confirm_proceed') + '</button>' +
@@ -486,13 +498,14 @@ function renderLnComingSoon(username) {
 
 // ── Pricing info card ──
 function renderPricingInfo() {
-  return '<div style="margin-top:12px;padding:12px;background:var(--bg3);border-radius:8px;border:1px solid var(--border)">' +
-    '<div style="font-size:.75rem;color:var(--text2);margin-bottom:8px">' + t('nip05_plan') + '</div>' +
-    '<div style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.72rem">' +
-    '<span style="color:var(--text3)">1-2 chars</span><span style="color:var(--accent);font-family:var(--font)">50,000 sats</span>' +
-    '<span style="color:var(--text3)">3 chars</span><span style="color:var(--accent);font-family:var(--font)">20,000 sats</span>' +
-    '<span style="color:var(--text3)">4 chars</span><span style="color:var(--accent);font-family:var(--font)">10,000 sats</span>' +
-    '<span style="color:var(--text3)">5+ chars</span><span style="color:var(--accent);font-family:var(--font)">5,000 sats</span>' +
+  return '<div class="pricing-info-card">' +
+    '<div class="discount-badge">&#x1F525; ' + t('nip05_price_promo') + '</div>' +
+    '<div style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.72rem;margin-top:8px">' +
+    '<span style="color:var(--text3)">1 char</span><span><span class="price-original">50,000</span> <span class="price-discount">40,000 sats</span></span>' +
+    '<span style="color:var(--text3)">2 chars</span><span><span class="price-original">40,000</span> <span class="price-discount">30,000 sats</span></span>' +
+    '<span style="color:var(--text3)">3 chars</span><span><span class="price-original">30,000</span> <span class="price-discount">20,000 sats</span></span>' +
+    '<span style="color:var(--text3)">4 chars</span><span><span class="price-original">20,000</span> <span class="price-discount">10,000 sats</span></span>' +
+    '<span style="color:var(--text3)">5+ chars</span><span><span class="price-original">10,000</span> <span class="price-discount">5,000 sats</span></span>' +
     '</div></div>';
 }
 

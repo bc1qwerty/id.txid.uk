@@ -21,7 +21,7 @@
   <meta name="twitter:site" content="@bc1qwerty">
   <meta name="twitter:title" content="NIP-05 Nostr Identity — username@txid.uk">
   <meta name="twitter:description" content="Get your verified Nostr identity. Register username@txid.uk for NIP-05 verification.">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"NIP-05 Nostr Identity","url":"https://id.txid.uk","description":"NIP-05 Nostr identity verification service. Register your username@txid.uk for verified identity on the Nostr network.","applicationCategory":"IdentityService","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","description":"Starting from 5,000 sats/year"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"NIP-05 Nostr Identity","url":"https://id.txid.uk","description":"NIP-05 Nostr identity verification service. Register your username@txid.uk for verified identity on the Nostr network.","applicationCategory":"IdentityService","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","description":"Starting from 5,000 sats/year (discounted from 10,000)"}}</script>
   <script src="https://apps.txid.uk/global-nav.js" defer></script>
 </head>
 <body>
@@ -87,29 +87,41 @@
   <div class="content">
     <div class="pricing-section" id="pricing">
       <div class="section-title" data-ko="프리미엄 유저네임 가격표" data-en="Premium Username Pricing" data-ja="プレミアムユーザー名価格表">Premium Username Pricing</div>
+      <div class="discount-badge" style="text-align:center;margin-bottom:12px">&#x1F525; <span data-ko="기간한정 할인 중!" data-en="Limited-time discount!" data-ja="期間限定割引中！">Limited-time discount!</span></div>
       <div class="pricing-grid">
         <div class="price-card">
-          <div class="price-len">1-2 chars</div>
+          <div class="price-len">1 char</div>
+          <div class="price-example" data-ko="예: a" data-en="e.g. a" data-ja="例: a">e.g. a</div>
+          <div class="price-amount"><span class="price-original">50,000</span></div>
+          <div class="price-amount price-discount-amount">40,000</div>
+          <div class="price-unit">sats/year</div>
+        </div>
+        <div class="price-card">
+          <div class="price-len">2 chars</div>
           <div class="price-example" data-ko="예: ab" data-en="e.g. ab" data-ja="例: ab">e.g. ab</div>
-          <div class="price-amount">50,000</div>
+          <div class="price-amount"><span class="price-original">40,000</span></div>
+          <div class="price-amount price-discount-amount">30,000</div>
           <div class="price-unit">sats/year</div>
         </div>
         <div class="price-card">
           <div class="price-len">3 chars</div>
           <div class="price-example" data-ko="예: abc" data-en="e.g. abc" data-ja="例: abc">e.g. abc</div>
-          <div class="price-amount">20,000</div>
+          <div class="price-amount"><span class="price-original">30,000</span></div>
+          <div class="price-amount price-discount-amount">20,000</div>
           <div class="price-unit">sats/year</div>
         </div>
         <div class="price-card">
           <div class="price-len">4 chars</div>
           <div class="price-example" data-ko="예: alex" data-en="e.g. alex" data-ja="例: alex">e.g. alex</div>
-          <div class="price-amount">10,000</div>
+          <div class="price-amount"><span class="price-original">20,000</span></div>
+          <div class="price-amount price-discount-amount">10,000</div>
           <div class="price-unit">sats/year</div>
         </div>
         <div class="price-card highlight">
           <div class="price-len">5+ chars</div>
           <div class="price-example" data-ko="예: alice" data-en="e.g. alice" data-ja="例: alice">e.g. alice</div>
-          <div class="price-amount">5,000</div>
+          <div class="price-amount"><span class="price-original">10,000</span></div>
+          <div class="price-amount price-discount-amount">5,000</div>
           <div class="price-unit">sats/year</div>
         </div>
       </div>
