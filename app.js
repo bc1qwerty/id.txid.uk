@@ -41,6 +41,53 @@ var T = {
     preview_label: 'Nostr 클라이언트에서 이렇게 보입니다',
     view_directory: '전체 사용자 보기',
     back_home: '← 돌아가기',
+    plan_annual: '연간',
+    plan_lifetime: '평생',
+    plan_lifetime_desc: '1회 결제로 영구 사용',
+    price_lifetime: 'sats (평생)',
+    export_keys: 'Nostr 키 내보내기',
+    export_keys_desc: '키를 안전하게 보관하세요. 타인에게 절대 공유하지 마세요.',
+    nsec_label: '비밀키 (nsec)',
+    npub_label: '공개키 (npub)',
+    badge_early_adopter: 'Early Adopter',
+    badge_veteran: '1년+',
+    badge_lifetime: '평생회원',
+    badge_admin: 'Admin',
+    recommended_relays: '추천 릴레이',
+    plan_label: '플랜',
+    lifetime_no_expiry: '영구 (만료 없음)',
+    profile_minimal: '이 사용자는 NIP-05 인증을 아직 등록하지 않았습니다.',
+    profile_get_verified: '나도 인증받기',
+    account_dashboard: '내 계정',
+    account_edit: '프로필 편집',
+    account_pubkey: '공개키',
+    account_joined: '가입일',
+    account_last_login: '마지막 로그인',
+    account_nip05: 'NIP-05',
+    account_plan: '플랜',
+    account_learn: '학습 진도',
+    account_portfolio: '포트폴리오',
+    account_community: '커뮤니티',
+    account_posts: '게시글',
+    account_comments: '댓글',
+    account_bookmarks: '북마크',
+    account_nostr_keys: 'Nostr 키',
+    account_sessions: '세션 관리',
+    account_export: '데이터 내보내기',
+    account_avatar: '프로필 사진',
+    account_avatar_upload: '사진 업로드',
+    account_avatar_remove: '사진 삭제',
+    account_avatar_hint: '최대 2MB, 정사각형 권장',
+    account_nickname: '닉네임',
+    account_nickname_ph: '닉네임 입력 (최대 30자)',
+    account_save: '저장',
+    account_saved: '저장됨!',
+    account_managing: '개 주소 관리 중',
+    account_no_nip05: '미등록',
+    account_register_nip05: 'NIP-05 등록하기',
+    account_pages: '페이지 학습',
+    account_no_data: '데이터 없음',
+    account_nip05_manage: 'NIP-05 관리',
   },
   en: {
     nip05: 'NIP-05 Verification', nip05_desc: 'Nostr verification @txid.uk',
@@ -80,6 +127,53 @@ var T = {
     preview_label: 'How it looks in Nostr clients',
     view_directory: 'View all users',
     back_home: '← Back',
+    plan_annual: 'Annual',
+    plan_lifetime: 'Lifetime',
+    plan_lifetime_desc: 'One-time payment, forever',
+    price_lifetime: 'sats (lifetime)',
+    export_keys: 'Export Nostr Keys',
+    export_keys_desc: 'Keep your keys safe. Never share with anyone.',
+    nsec_label: 'Private Key (nsec)',
+    npub_label: 'Public Key (npub)',
+    badge_early_adopter: 'Early Adopter',
+    badge_veteran: '1 Year+',
+    badge_lifetime: 'Lifetime',
+    badge_admin: 'Admin',
+    recommended_relays: 'Recommended Relays',
+    plan_label: 'Plan',
+    lifetime_no_expiry: 'Permanent (no expiry)',
+    profile_minimal: 'This user has not registered for NIP-05 verification yet.',
+    profile_get_verified: 'Get verified',
+    account_dashboard: 'My Account',
+    account_edit: 'Edit Profile',
+    account_pubkey: 'Public Key',
+    account_joined: 'Joined',
+    account_last_login: 'Last Login',
+    account_nip05: 'NIP-05',
+    account_plan: 'Plan',
+    account_learn: 'Learning Progress',
+    account_portfolio: 'Portfolio',
+    account_community: 'Community',
+    account_posts: 'Posts',
+    account_comments: 'Comments',
+    account_bookmarks: 'Bookmarks',
+    account_nostr_keys: 'Nostr Keys',
+    account_sessions: 'Sessions',
+    account_export: 'Export Data',
+    account_avatar: 'Profile Photo',
+    account_avatar_upload: 'Upload Photo',
+    account_avatar_remove: 'Remove Photo',
+    account_avatar_hint: 'Max 2MB, square recommended',
+    account_nickname: 'Nickname',
+    account_nickname_ph: 'Enter nickname (max 30)',
+    account_save: 'Save',
+    account_saved: 'Saved!',
+    account_managing: ' addresses managed',
+    account_no_nip05: 'Not registered',
+    account_register_nip05: 'Register NIP-05',
+    account_pages: 'pages learned',
+    account_no_data: 'No data',
+    account_nip05_manage: 'NIP-05 Management',
   },
   ja: {
     nip05: 'NIP-05認証', nip05_desc: 'Nostr認証アドレス @txid.uk',
@@ -119,6 +213,53 @@ var T = {
     preview_label: 'Nostrクライアントでの表示',
     view_directory: '全ユーザーを見る',
     back_home: '← 戻る',
+    plan_annual: '年間',
+    plan_lifetime: '永久',
+    plan_lifetime_desc: '一回払いで永久使用',
+    price_lifetime: 'sats (永久)',
+    export_keys: 'Nostrキーをエクスポート',
+    export_keys_desc: 'キーを安全に保管してください。他人に共有しないでください。',
+    nsec_label: '秘密鍵 (nsec)',
+    npub_label: '公開鍵 (npub)',
+    badge_early_adopter: 'Early Adopter',
+    badge_veteran: '1年+',
+    badge_lifetime: '永久会員',
+    badge_admin: 'Admin',
+    recommended_relays: 'おすすめリレー',
+    plan_label: 'プラン',
+    lifetime_no_expiry: '永久 (期限なし)',
+    profile_minimal: 'このユーザーはまだNIP-05認証を登録していません。',
+    profile_get_verified: '認証を取得する',
+    account_dashboard: 'マイアカウント',
+    account_edit: 'プロフィール編集',
+    account_pubkey: '公開鍵',
+    account_joined: '登録日',
+    account_last_login: '最終ログイン',
+    account_nip05: 'NIP-05',
+    account_plan: 'プラン',
+    account_learn: '学習進捗',
+    account_portfolio: 'ポートフォリオ',
+    account_community: 'コミュニティ',
+    account_posts: '投稿',
+    account_comments: 'コメント',
+    account_bookmarks: 'ブックマーク',
+    account_nostr_keys: 'Nostrキー',
+    account_sessions: 'セッション',
+    account_export: 'データエクスポート',
+    account_avatar: 'プロフィール写真',
+    account_avatar_upload: '写真アップロード',
+    account_avatar_remove: '写真を削除',
+    account_avatar_hint: '最大2MB、正方形推奨',
+    account_nickname: 'ニックネーム',
+    account_nickname_ph: 'ニックネーム入力 (最大30文字)',
+    account_save: '保存',
+    account_saved: '保存済み!',
+    account_managing: '個のアドレス管理中',
+    account_no_nip05: '未登録',
+    account_register_nip05: 'NIP-05登録',
+    account_pages: 'ページ学習',
+    account_no_data: 'データなし',
+    account_nip05_manage: 'NIP-05管理',
   },
 };
 function t(key) { return (T[lang] && T[lang][key]) || T.en[key] || key; }
@@ -145,9 +286,11 @@ var PRICING = { 1: 50000, 2: 40000, 3: 30000, 4: 20000 };
 var DEFAULT_PRICE = 10000;
 var DISCOUNT = { 1: 40000, 2: 30000, 3: 20000, 4: 10000 };
 var DISCOUNT_DEFAULT = 5000;
-function getPriceSats(username) {
+var LIFETIME_MULT = 5;
+function getPriceSats(username, plan) {
   var len = (username || '').length;
-  return DISCOUNT[len] || DISCOUNT_DEFAULT;
+  var annual = DISCOUNT[len] || DISCOUNT_DEFAULT;
+  return plan === 'lifetime' ? annual * LIFETIME_MULT : annual;
 }
 function getOriginalPrice(username) {
   var len = (username || '').length;
@@ -200,6 +343,10 @@ function route() {
   var hash = location.hash || '#/';
   if (hash === '#/directory') {
     renderDirectory();
+  } else if (hash === '#/account/edit') {
+    renderAccountEdit();
+  } else if (hash === '#/account') {
+    renderAccount();
   } else if (hash.startsWith('#/u/')) {
     var username = decodeURIComponent(hash.slice(4));
     renderProfile(username);
@@ -274,7 +421,9 @@ function loadNip05Management() {
 
 function renderActiveState(container, data) {
   var paidDate = data.paidAt ? new Date(data.paidAt * 1000).toLocaleDateString() : '-';
-  var expDate = new Date(data.expiresAt * 1000).toLocaleDateString();
+  var isLifetime = data.isLifetime || data.planType === 'lifetime';
+  var expDisplay = isLifetime ? t('lifetime_no_expiry') : new Date(data.expiresAt * 1000).toLocaleDateString();
+  var planDisplay = isLifetime ? '&#x221E; ' + t('plan_lifetime') : t('plan_annual');
   var priceSats = getPriceSats(data.username);
 
   var changeHtml = '';
@@ -294,23 +443,82 @@ function renderActiveState(container, data) {
     changeHtml = '<div class="form-hint" style="margin-top:12px">' + daysLeft + t('nip05_change_cooldown') + '</div>';
   }
 
+  // Renew button only for annual plans
+  var renewBtn = isLifetime ? '' :
+    '<button id="nip05-renew" class="btn">' + t('nip05_renew') + '</button>';
+
   container.innerHTML = '<div class="nip05-card">' +
     '<h2><span class="badge badge-purple">' + t('nip05') + '</span> ' + t('nip05_manage') + '</h2>' +
     '<div style="font-family:var(--font);font-size:1.1rem;color:var(--green);margin-bottom:16px">' +
-    '&#x2713; ' + esc(data.identifier) + '</div>' +
-    '<div class="status-row"><span class="status-label">' + t('nip05_purchased') + '</span><span class="status-value">' + paidDate + '</span></div>' +
-    '<div class="status-row"><span class="status-label">' + t('nip05_expires') + '</span><span class="status-value">' + expDate + '</span></div>' +
-    '<div class="status-row"><span class="status-label">' + t('nip05_plan') + '</span><span class="status-value">' + priceSats.toLocaleString() + ' ' + t('nip05_sats') + '</span></div>' +
-    '<div class="btn-row" style="margin-top:16px">' +
-    '<button id="nip05-renew" class="btn">' + t('nip05_renew') + '</button>' +
-    '<a href="#/u/' + esc(data.username) + '" class="btn secondary" style="text-decoration:none">' + t('profile_follow').split(' ')[0] + '</a>' +
+    '&#x2713; ' + esc(data.identifier) +
+    (isLifetime ? ' <span class="badge-lifetime">&#x221E; ' + t('badge_lifetime') + '</span>' : '') +
     '</div>' +
+    '<div class="status-row"><span class="status-label">' + t('plan_label') + '</span><span class="status-value">' + planDisplay + '</span></div>' +
+    '<div class="status-row"><span class="status-label">' + t('nip05_purchased') + '</span><span class="status-value">' + paidDate + '</span></div>' +
+    '<div class="status-row"><span class="status-label">' + t('nip05_expires') + '</span><span class="status-value">' + expDisplay + '</span></div>' +
+    '<div class="btn-row" style="margin-top:16px">' +
+    renewBtn +
+    '<a href="#/u/' + esc(data.username) + '" class="btn secondary" style="text-decoration:none">' + t('profile_follow').split(' ')[0] + '</a>' +
+    '<button id="nip05-export-keys" class="btn secondary">&#x1F511; ' + t('export_keys') + '</button>' +
+    '</div>' +
+    '<div id="nip05-keys-section" class="hidden"></div>' +
     changeHtml +
     '</div>' +
+    renderRelayRecommendations() +
     renderLnComingSoon(data.username);
 
-  document.getElementById('nip05-renew').addEventListener('click', function () {
-    startRenewal(container, data.username);
+  if (!isLifetime) {
+    document.getElementById('nip05-renew').addEventListener('click', function () {
+      startRenewal(container, data.username);
+    });
+  }
+
+  // E4: Key export
+  document.getElementById('nip05-export-keys').addEventListener('click', function () {
+    var section = document.getElementById('nip05-keys-section');
+    if (!section.classList.contains('hidden')) {
+      section.classList.add('hidden');
+      return;
+    }
+    section.innerHTML = '<div style="text-align:center;padding:12px;color:var(--text3)">...</div>';
+    section.classList.remove('hidden');
+    api('/nip05/my/keys').then(function (keys) {
+      section.innerHTML = '<div class="keys-export">' +
+        '<div class="keys-warning">&#x26A0; ' + t('export_keys_desc') + '</div>' +
+        '<div class="keys-row">' +
+        '<span class="keys-label">' + t('npub_label') + '</span>' +
+        '<code class="keys-value" id="keys-npub">' + esc(keys.npub) + '</code>' +
+        '<button class="btn-copy" data-copy="npub">&#x2398;</button>' +
+        '</div>' +
+        '<div class="keys-row">' +
+        '<span class="keys-label">' + t('nsec_label') + '</span>' +
+        '<code class="keys-value keys-secret" id="keys-nsec">&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;</code>' +
+        '<button class="btn-copy" data-copy="nsec" id="keys-reveal">&#x1F441;</button>' +
+        '</div>' +
+        '</div>';
+      var nsecRevealed = false;
+      document.querySelector('[data-copy="npub"]').addEventListener('click', function () {
+        navigator.clipboard.writeText(keys.npub);
+        this.textContent = t('copied');
+        var el = this;
+        setTimeout(function () { el.innerHTML = '&#x2398;'; }, 1500);
+      });
+      document.getElementById('keys-reveal').addEventListener('click', function () {
+        if (!nsecRevealed) {
+          document.getElementById('keys-nsec').textContent = keys.nsec;
+          document.getElementById('keys-nsec').classList.remove('keys-secret');
+          this.innerHTML = '&#x2398;';
+          nsecRevealed = true;
+        } else {
+          navigator.clipboard.writeText(keys.nsec);
+          this.textContent = t('copied');
+          var el = this;
+          setTimeout(function () { el.innerHTML = '&#x2398;'; }, 1500);
+        }
+      });
+    }).catch(function (e) {
+      section.innerHTML = '<div class="keys-export"><div class="form-status error">' + esc(e.message || 'Error') + '</div></div>';
+    });
   });
 
   if (data.canChangeUsername) {
@@ -337,6 +545,29 @@ function renderActiveState(container, data) {
       });
     });
   }
+}
+
+// ── B3: Relay Recommendations ──
+var RECOMMENDED_RELAYS = [
+  { url: 'wss://relay.damus.io', region: 'Global', desc: 'Damus relay — large user base' },
+  { url: 'wss://nos.lol', region: 'Global', desc: 'nos.lol — fast and reliable' },
+  { url: 'wss://relay.nostr.band', region: 'Global', desc: 'nostr.band — search-optimized' },
+  { url: 'wss://nostr.wine', region: 'Global', desc: 'Paid relay — low spam' },
+  { url: 'wss://relay.snort.social', region: 'Global', desc: 'Snort relay' },
+  { url: 'wss://offchain.pub', region: 'Global', desc: 'Bitcoin/Lightning focused' },
+];
+
+function renderRelayRecommendations() {
+  var rows = RECOMMENDED_RELAYS.map(function (r) {
+    return '<div class="relay-rec-row">' +
+      '<code class="relay-rec-url">' + esc(r.url) + '</code>' +
+      '<span class="relay-rec-desc">' + esc(r.desc) + '</span>' +
+      '</div>';
+  }).join('');
+  return '<div class="relay-rec-card">' +
+    '<div class="relay-rec-title">&#x1F4E1; ' + t('recommended_relays') + '</div>' +
+    rows +
+    '</div>';
 }
 
 function renderExpiredState(container, data) {
@@ -428,43 +659,64 @@ function renderRegisterForm(container) {
 
 function showConfirm(container, username) {
   var identifier = username + '@txid.uk';
-  var priceSats = getPriceSats(username);
-  var originalPrice = getOriginalPrice(username);
+  var selectedPlan = 'annual';
 
-  container.innerHTML = '<div class="nip05-card">' +
-    '<h2><span class="badge badge-purple">' + t('nip05') + '</span> ' + t('nip05_confirm') + '</h2>' +
-    '<div class="form-hint">' + t('nip05_confirm_msg') + '</div>' +
-    '<div class="confirm-card">' +
-    '<div class="confirm-id">' + esc(identifier) + '</div>' +
-    '<div class="confirm-price">' + t('nip05_plan') + ' &middot; <span class="price-original">' + originalPrice.toLocaleString() + '</span> <span class="price-discount">' + priceSats.toLocaleString() + ' sats</span></div>' +
-    '</div>' +
-    '<div class="btn-row">' +
-    '<button id="nip05-confirm-btn" class="btn">&#x26A1; ' + t('nip05_confirm_proceed') + '</button>' +
-    '<button id="nip05-confirm-cancel" class="btn secondary">' + t('cancel') + '</button>' +
-    '</div>' +
-    '<div id="nip05-status" class="form-status"></div>' +
-    '</div>';
+  function renderConfirmContent() {
+    var priceSats = getPriceSats(username, selectedPlan);
+    var originalAnnual = getOriginalPrice(username);
+    var priceLabel = selectedPlan === 'lifetime'
+      ? priceSats.toLocaleString() + ' sats (' + t('plan_lifetime') + ')'
+      : '<span class="price-original">' + originalAnnual.toLocaleString() + '</span> <span class="price-discount">' + priceSats.toLocaleString() + ' sats</span>';
 
-  document.getElementById('nip05-confirm-btn').addEventListener('click', function () {
-    var cbtn = document.getElementById('nip05-confirm-btn');
-    var st = document.getElementById('nip05-status');
-    cbtn.disabled = true; cbtn.textContent = '...';
-    api('/nip05/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: username }),
-    }).then(function (data) {
-      showPayment(container, data);
-    }).catch(function (e) {
-      st.textContent = e.message || 'Error';
-      st.className = 'form-status error';
-      cbtn.disabled = false; cbtn.innerHTML = '&#x26A1; ' + t('nip05_confirm_proceed');
+    container.innerHTML = '<div class="nip05-card">' +
+      '<h2><span class="badge badge-purple">' + t('nip05') + '</span> ' + t('nip05_confirm') + '</h2>' +
+      '<div class="form-hint">' + t('nip05_confirm_msg') + '</div>' +
+      '<div class="plan-toggle">' +
+      '<button class="plan-btn' + (selectedPlan === 'annual' ? ' active' : '') + '" data-plan="annual">' + t('plan_annual') + '</button>' +
+      '<button class="plan-btn' + (selectedPlan === 'lifetime' ? ' active' : '') + '" data-plan="lifetime">&#x221E; ' + t('plan_lifetime') + '</button>' +
+      '</div>' +
+      (selectedPlan === 'lifetime' ? '<div class="form-hint" style="color:var(--green);margin-bottom:8px">' + t('plan_lifetime_desc') + '</div>' : '') +
+      '<div class="confirm-card">' +
+      '<div class="confirm-id">' + esc(identifier) + '</div>' +
+      '<div class="confirm-price">' + priceLabel + '</div>' +
+      '</div>' +
+      '<div class="btn-row">' +
+      '<button id="nip05-confirm-btn" class="btn">&#x26A1; ' + t('nip05_confirm_proceed') + '</button>' +
+      '<button id="nip05-confirm-cancel" class="btn secondary">' + t('cancel') + '</button>' +
+      '</div>' +
+      '<div id="nip05-status" class="form-status"></div>' +
+      '</div>';
+
+    container.querySelectorAll('.plan-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        selectedPlan = btn.dataset.plan;
+        renderConfirmContent();
+      });
     });
-  });
 
-  document.getElementById('nip05-confirm-cancel').addEventListener('click', function () {
-    renderRegisterForm(container);
-  });
+    document.getElementById('nip05-confirm-btn').addEventListener('click', function () {
+      var cbtn = document.getElementById('nip05-confirm-btn');
+      var st = document.getElementById('nip05-status');
+      cbtn.disabled = true; cbtn.textContent = '...';
+      api('/nip05/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, plan: selectedPlan }),
+      }).then(function (data) {
+        showPayment(container, data);
+      }).catch(function (e) {
+        st.textContent = e.message || 'Error';
+        st.className = 'form-status error';
+        cbtn.disabled = false; cbtn.innerHTML = '&#x26A1; ' + t('nip05_confirm_proceed');
+      });
+    });
+
+    document.getElementById('nip05-confirm-cancel').addEventListener('click', function () {
+      renderRegisterForm(container);
+    });
+  }
+
+  renderConfirmContent();
 }
 
 function showPayment(container, data) {
@@ -600,6 +852,280 @@ function renderDirectory() {
   });
 }
 
+// ── Account Dashboard ──
+function renderAccount() {
+  var app = document.getElementById('app');
+  var cta = document.getElementById('cta-login');
+  var pricing = document.getElementById('pricing');
+  var statsBar = document.getElementById('stats-bar');
+  if (cta) cta.classList.add('hidden');
+  if (pricing) pricing.classList.add('hidden');
+  if (statsBar) statsBar.classList.add('hidden');
+
+  if (!currentUser) {
+    app.innerHTML = '<div class="profile-not-found"><div>' + t('login_required') + '</div>' +
+      '<div style="margin-top:16px"><a href="#/" class="btn secondary">' + t('back_home') + '</a></div></div>';
+    return;
+  }
+
+  app.innerHTML = '<div class="nip05-card"><div style="text-align:center;color:var(--text3);padding:20px">...</div></div>';
+
+  api('/account/summary').then(function (data) {
+    var u = data.user;
+    var pubkeyShort = u.pubkey.slice(0, 8) + '...' + u.pubkey.slice(-8);
+    var joinedDate = u.createdAt ? new Date(u.createdAt * 1000).toLocaleDateString() : '-';
+    var lastLoginDate = u.lastLogin ? new Date(u.lastLogin * 1000).toLocaleDateString() : '-';
+
+    // Avatar
+    var avatarHtml = u.avatarUrl
+      ? '<img src="' + esc(u.avatarUrl) + '" class="acct-avatar-lg" alt="">'
+      : '<div class="acct-avatar-placeholder">' + esc((u.displayName || u.pubkey.slice(0, 2)).slice(0, 2).toUpperCase()) + '</div>';
+
+    // Display name
+    var displayName = u.displayName || pubkeyShort;
+
+    // NIP-05 info
+    var nip05Html = '';
+    if (data.nip05 && data.nip05.status === 'active') {
+      var isLifetime = data.nip05.planType === 'lifetime';
+      var planLabel = isLifetime ? '&#x221E; ' + t('plan_lifetime') : t('plan_annual');
+      var expDisplay = isLifetime ? t('lifetime_no_expiry') : new Date(data.nip05.expiresAt * 1000).toLocaleDateString();
+      nip05Html = '<div class="acct-row"><span class="acct-label">' + t('account_nip05') + '</span><span class="acct-value"><span style="color:var(--green)">&#x2713;</span> ' + esc(data.nip05.username) + '@txid.uk</span></div>' +
+        '<div class="acct-row"><span class="acct-label">' + t('account_plan') + '</span><span class="acct-value">' + planLabel + '</span></div>' +
+        '<div class="acct-row"><span class="acct-label">' + t('nip05_expires') + '</span><span class="acct-value">' + expDisplay + '</span></div>';
+    } else {
+      nip05Html = '<div class="acct-row"><span class="acct-label">' + t('account_nip05') + '</span><span class="acct-value" style="color:var(--text3)">' + t('account_no_nip05') + ' <a href="#/" style="color:var(--blue);font-size:.7rem">' + t('account_register_nip05') + '</a></span></div>';
+    }
+
+    // Learning progress card
+    var learnHtml = '';
+    if (data.learnProgress) {
+      var pages = Object.keys(data.learnProgress).length;
+      learnHtml = '<div class="acct-card">' +
+        '<div class="acct-card-title">' + t('account_learn') + '</div>' +
+        '<div class="acct-card-value">' + pages + ' ' + t('account_pages') + '</div>' +
+        '</div>';
+    }
+
+    // Portfolio card
+    var portfolioHtml = '';
+    if (data.portfolio && data.portfolio.length > 0) {
+      portfolioHtml = '<div class="acct-card">' +
+        '<div class="acct-card-title">' + t('account_portfolio') + '</div>' +
+        '<div class="acct-card-value">' + data.portfolio.length + t('account_managing') + '</div>' +
+        '</div>';
+    }
+
+    // Community card
+    var comm = data.community;
+    var communityHtml = '<div class="acct-card">' +
+      '<div class="acct-card-title">' + t('account_community') + '</div>' +
+      '<div class="acct-card-value">' + t('account_posts') + ' ' + comm.posts + ' / ' + t('account_comments') + ' ' + comm.comments + ' / ' + t('account_bookmarks') + ' ' + comm.bookmarks + '</div>' +
+      '</div>';
+
+    app.innerHTML = '<div class="acct-dashboard">' +
+      '<div class="acct-header">' +
+      '<div class="acct-avatar-wrap">' + avatarHtml + '</div>' +
+      '<div class="acct-header-info">' +
+      '<div class="acct-name">' + esc(displayName) + '</div>' +
+      (data.nip05 && data.nip05.status === 'active' ? '<div class="acct-nip05-id">' + esc(data.nip05.username) + '@txid.uk</div>' : '') +
+      '</div>' +
+      '<a href="#/account/edit" class="btn secondary">' + t('account_edit') + '</a>' +
+      '</div>' +
+      '<div class="acct-info">' +
+      '<div class="acct-row"><span class="acct-label">' + t('account_pubkey') + '</span><span class="acct-value acct-pubkey" id="acct-pubkey">' + esc(pubkeyShort) + '</span></div>' +
+      '<div class="acct-row"><span class="acct-label">' + t('account_joined') + '</span><span class="acct-value">' + joinedDate + '</span></div>' +
+      '<div class="acct-row"><span class="acct-label">' + t('account_last_login') + '</span><span class="acct-value">' + lastLoginDate + '</span></div>' +
+      nip05Html +
+      '</div>' +
+      '<div class="acct-cards">' + learnHtml + portfolioHtml + communityHtml + '</div>' +
+      '<div class="acct-actions">' +
+      (data.nip05 && data.nip05.status === 'active' ? '<a href="#/" class="btn secondary" style="text-decoration:none">' + t('account_nip05_manage') + '</a>' : '') +
+      '<a href="#/account/edit" class="btn secondary" style="text-decoration:none">' + t('account_avatar') + '</a>' +
+      '</div>' +
+      '</div>';
+
+    // Pubkey copy
+    document.getElementById('acct-pubkey').addEventListener('click', function () {
+      navigator.clipboard.writeText(u.pubkey);
+      this.textContent = t('copied');
+      var el = this;
+      setTimeout(function () { el.textContent = pubkeyShort; }, 1500);
+    });
+  }).catch(function (e) {
+    app.innerHTML = '<div class="profile-not-found"><div>' + esc(e.message || 'Error') + '</div>' +
+      '<div style="margin-top:16px"><a href="#/" class="btn secondary">' + t('back_home') + '</a></div></div>';
+  });
+}
+
+// ── Account Edit / Profile Edit ──
+function renderAccountEdit() {
+  var app = document.getElementById('app');
+  var cta = document.getElementById('cta-login');
+  var pricing = document.getElementById('pricing');
+  var statsBar = document.getElementById('stats-bar');
+  if (cta) cta.classList.add('hidden');
+  if (pricing) pricing.classList.add('hidden');
+  if (statsBar) statsBar.classList.add('hidden');
+
+  if (!currentUser) {
+    app.innerHTML = '<div class="profile-not-found"><div>' + t('login_required') + '</div>' +
+      '<div style="margin-top:16px"><a href="#/" class="btn secondary">' + t('back_home') + '</a></div></div>';
+    return;
+  }
+
+  app.innerHTML = '<div class="nip05-card"><div style="text-align:center;color:var(--text3);padding:20px">...</div></div>';
+
+  api('/account/summary').then(function (data) {
+    var u = data.user;
+
+    // Avatar section
+    var avatarPreview = u.avatarUrl
+      ? '<img src="' + esc(u.avatarUrl) + '" class="acct-avatar-lg" id="avatar-preview" alt="">'
+      : '<div class="acct-avatar-placeholder" id="avatar-preview">' + esc((u.displayName || u.pubkey.slice(0, 2)).slice(0, 2).toUpperCase()) + '</div>';
+
+    app.innerHTML = '<div class="acct-edit">' +
+      '<div class="acct-edit-header">' +
+      '<a href="#/account" class="dir-back">' + t('back_home') + '</a>' +
+      '<h2>' + t('account_edit') + '</h2>' +
+      '</div>' +
+      // Avatar section
+      '<div class="acct-edit-section">' +
+      '<div class="acct-edit-label">' + t('account_avatar') + '</div>' +
+      '<div class="acct-avatar-edit">' +
+      avatarPreview +
+      '<div class="acct-avatar-btns">' +
+      '<label class="btn secondary acct-upload-label">' + t('account_avatar_upload') +
+      '<input type="file" accept="image/*" id="avatar-input" style="display:none">' +
+      '</label>' +
+      (u.avatarUrl ? '<button class="btn secondary" id="avatar-remove">' + t('account_avatar_remove') + '</button>' : '') +
+      '</div>' +
+      '<div class="form-hint">' + t('account_avatar_hint') + '</div>' +
+      '<div id="avatar-status" class="form-status"></div>' +
+      '</div>' +
+      '</div>' +
+      // Nickname section
+      '<div class="acct-edit-section">' +
+      '<div class="acct-edit-label">' + t('account_nickname') + '</div>' +
+      '<div class="form-row">' +
+      '<input id="nickname-input" class="input" value="' + esc(u.displayName || '') + '" placeholder="' + t('account_nickname_ph') + '" maxlength="30">' +
+      '<button id="nickname-save" class="btn">' + t('account_save') + '</button>' +
+      '</div>' +
+      '<div id="nickname-status" class="form-status"></div>' +
+      '</div>' +
+      '</div>';
+
+    // Avatar upload handler
+    document.getElementById('avatar-input').addEventListener('change', function () {
+      var file = this.files[0];
+      if (!file) return;
+      if (file.size > 2 * 1024 * 1024) {
+        document.getElementById('avatar-status').textContent = 'File too large (max 2MB)';
+        document.getElementById('avatar-status').className = 'form-status error';
+        return;
+      }
+
+      var statusEl = document.getElementById('avatar-status');
+      statusEl.textContent = '...';
+      statusEl.className = 'form-status';
+
+      var formData = new FormData();
+      formData.append('avatar', file);
+
+      fetch('https://api.txid.uk/account/avatar', {
+        method: 'PUT',
+        credentials: 'include',
+        body: formData,
+      }).then(function (res) {
+        if (!res.ok) throw new Error('Upload failed');
+        return res.json();
+      }).then(function (result) {
+        statusEl.textContent = t('account_saved');
+        statusEl.className = 'form-status success';
+
+        // Update preview
+        var previewEl = document.getElementById('avatar-preview');
+        if (previewEl.tagName === 'IMG') {
+          previewEl.src = result.avatarUrl;
+        } else {
+          var img = document.createElement('img');
+          img.src = result.avatarUrl;
+          img.className = 'acct-avatar-lg';
+          img.id = 'avatar-preview';
+          img.alt = '';
+          previewEl.replaceWith(img);
+        }
+
+        // Update global auth widget
+        if (window.txidAuth && txidAuth.updateAvatarUrl) {
+          txidAuth.updateAvatarUrl(result.avatarUrl);
+        }
+      }).catch(function (e) {
+        statusEl.textContent = e.message || 'Error';
+        statusEl.className = 'form-status error';
+      });
+    });
+
+    // Avatar remove handler
+    var removeBtn = document.getElementById('avatar-remove');
+    if (removeBtn) {
+      removeBtn.addEventListener('click', function () {
+        var statusEl = document.getElementById('avatar-status');
+        statusEl.textContent = '...';
+        api('/account/avatar', { method: 'DELETE' }).then(function () {
+          statusEl.textContent = t('account_saved');
+          statusEl.className = 'form-status success';
+          // Replace with placeholder
+          var previewEl = document.getElementById('avatar-preview');
+          var placeholder = document.createElement('div');
+          placeholder.className = 'acct-avatar-placeholder';
+          placeholder.id = 'avatar-preview';
+          placeholder.textContent = (u.displayName || u.pubkey.slice(0, 2)).slice(0, 2).toUpperCase();
+          previewEl.replaceWith(placeholder);
+          removeBtn.remove();
+          if (window.txidAuth && txidAuth.updateAvatarUrl) {
+            txidAuth.updateAvatarUrl(null);
+          }
+        }).catch(function (e) {
+          statusEl.textContent = e.message || 'Error';
+          statusEl.className = 'form-status error';
+        });
+      });
+    }
+
+    // Nickname save handler
+    document.getElementById('nickname-save').addEventListener('click', function () {
+      var name = document.getElementById('nickname-input').value.trim();
+      var statusEl = document.getElementById('nickname-status');
+      var btn = this;
+      btn.disabled = true;
+      btn.textContent = '...';
+
+      api('/auth/me/display-name', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ displayName: name || null }),
+      }).then(function () {
+        statusEl.textContent = t('account_saved');
+        statusEl.className = 'form-status success';
+        btn.disabled = false;
+        btn.textContent = t('account_save');
+        if (window.txidAuth && txidAuth.updateDisplayName) {
+          txidAuth.updateDisplayName(name);
+        }
+      }).catch(function (e) {
+        statusEl.textContent = e.message || 'Error';
+        statusEl.className = 'form-status error';
+        btn.disabled = false;
+        btn.textContent = t('account_save');
+      });
+    });
+  }).catch(function (e) {
+    app.innerHTML = '<div class="profile-not-found"><div>' + esc(e.message || 'Error') + '</div>' +
+      '<div style="margin-top:16px"><a href="#/" class="btn secondary">' + t('back_home') + '</a></div></div>';
+  });
+}
+
 // ── Lightning Address Coming Soon ──
 function renderLnComingSoon(username) {
   return '<div class="ln-coming">' +
@@ -619,6 +1145,39 @@ function renderProfile(username) {
   app.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3)">...</div>';
 
   api('/nip05/profile/' + encodeURIComponent(username)).then(function (data) {
+    // Minimal profile (pubkey lookup, no NIP-05)
+    if (data.minimal) {
+      var npubShort = data.nostrPubkey ? (data.nostrPubkey.slice(0, 16) + '...' + data.nostrPubkey.slice(-8)) : '';
+      var relayHtml = '';
+      if (data.relays && data.relays.length) {
+        relayHtml = '<div class="profile-section">' +
+          '<div class="profile-section-title">' + t('profile_relays') + '</div>' +
+          '<ul class="relay-list">' + data.relays.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('') + '</ul>' +
+          '</div>';
+      }
+      app.innerHTML = '<div class="profile-card profile-minimal">' +
+        '<div class="profile-avatar-lg">' + esc(data.nostrPubkey.slice(0, 2).toUpperCase()) + '</div>' +
+        '<div class="profile-npub" id="profile-npub" title="' + t('copy') + '">' + esc(npubShort) + '</div>' +
+        '<div class="profile-minimal-note">' + t('profile_minimal') + '</div>' +
+        relayHtml +
+        '<div class="profile-links">' +
+        '<a href="https://njump.me/' + esc(data.nostrPubkey) + '" target="_blank" rel="noopener">' + t('profile_follow') + '</a>' +
+        '<a href="#/" class="btn">' + t('profile_get_verified') + '</a>' +
+        '<a href="#/" style="color:var(--text3)">&larr; Back</a>' +
+        '</div>' +
+        '</div>';
+      if (data.nostrPubkey) {
+        document.getElementById('profile-npub').addEventListener('click', function () {
+          navigator.clipboard.writeText(data.nostrPubkey);
+          this.textContent = t('copied');
+          var el = this;
+          setTimeout(function () { el.textContent = npubShort; }, 1500);
+        });
+      }
+      return;
+    }
+
+    // Full profile (NIP-05 registered)
     var relayHtml = '';
     if (data.relays && data.relays.length) {
       relayHtml = '<div class="profile-section">' +
@@ -627,10 +1186,35 @@ function renderProfile(username) {
         '</div>';
     }
 
+    // B2: Badges
+    var badgesHtml = '';
+    if (data.badges && data.badges.length) {
+      var BADGE_MAP = {
+        'early-adopter': { cls: 'badge-ea', label: t('badge_early_adopter') },
+        'veteran': { cls: 'badge-vet', label: t('badge_veteran') },
+        'lifetime': { cls: 'badge-lt', label: t('badge_lifetime') },
+        'admin': { cls: 'badge-adm', label: t('badge_admin') },
+      };
+      var badgeTags = data.badges.map(function (b) {
+        var info = BADGE_MAP[b] || { cls: '', label: b };
+        return '<span class="profile-badge ' + info.cls + '">' + esc(info.label) + '</span>';
+      }).join('');
+      badgesHtml = '<div class="profile-badges">' + badgeTags + '</div>';
+    }
+
+    var planHtml = '';
+    if (data.planType) {
+      var planLabel = data.planType === 'lifetime' ? '&#x221E; ' + t('plan_lifetime') : t('plan_annual');
+      planHtml = '<div class="profile-plan">' + planLabel + '</div>';
+    }
+
+    var displayName = data.username || username;
     var npubShort = data.nostrPubkey ? (data.nostrPubkey.slice(0, 20) + '...' + data.nostrPubkey.slice(-8)) : '';
 
     app.innerHTML = '<div class="profile-card">' +
-      '<div class="profile-nip05"><span class="profile-verified">&#x2713;</span> ' + esc(username) + '@txid.uk</div>' +
+      '<div class="profile-nip05"><span class="profile-verified">&#x2713;</span> ' + esc(displayName) + '@txid.uk</div>' +
+      badgesHtml +
+      planHtml +
       (data.nostrPubkey ? '<div class="profile-npub" id="profile-npub" title="' + t('copy') + '">' + esc(npubShort) + '</div>' : '') +
       relayHtml +
       '<div class="profile-section">' +
@@ -638,7 +1222,7 @@ function renderProfile(username) {
       '<div style="font-size:.75rem;color:var(--text3)"><span class="badge-coming">' + t('coming_soon') + '</span></div>' +
       '</div>' +
       '<div class="profile-links">' +
-      '<a href="https://njump.me/' + esc(username) + '@txid.uk" target="_blank" rel="noopener">' + t('profile_follow') + '</a>' +
+      '<a href="https://njump.me/' + esc(displayName) + '@txid.uk" target="_blank" rel="noopener">' + t('profile_follow') + '</a>' +
       '<a href="#/" style="color:var(--text3)">&larr; Back</a>' +
       '</div>' +
       '</div>';
