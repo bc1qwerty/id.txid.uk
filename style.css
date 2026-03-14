@@ -57,8 +57,8 @@
 /* Pricing table */
 .pricing-section{margin:36px 0;}
 .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:16px;}
-.price-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;transition:border-color .2s;}
-.price-card:hover{border-color:var(--border2);}
+.price-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s;}
+.price-card:hover{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);transform:translateY(-2px);}
 .price-card.highlight{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
 .price-len{font-family:var(--font);font-size:1rem;font-weight:700;color:var(--text1);}
 .price-example{font-size:.7rem;color:var(--text3);margin:4px 0 8px;font-family:var(--font);}
@@ -74,7 +74,8 @@
 .feature-desc{font-size:.75rem;color:var(--text2);line-height:1.5;}
 
 /* CTA */
-.cta-section{text-align:center;margin:36px 0;padding:32px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);}
+.cta-section{text-align:center;margin:36px 0;padding:32px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);transition:border-color .2s,box-shadow .2s;}
+.cta-section:hover{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
 .cta-section .btn{font-size:.9rem;padding:10px 24px;}
 
 /* NIP-05 Management card */

@@ -188,11 +188,23 @@ function route() {
 window.addEventListener('hashchange', route);
 
 // ── Auth integration ──
-if (window.txidAuth && txidAuth.onAuthChange) {
-  txidAuth.onAuthChange(function (user) {
-    currentUser = user;
-    route();
-  });
+function registerAuth() {
+  if (window.txidAuth && txidAuth.onAuthChange) {
+    txidAuth.onAuthChange(function (user) {
+      currentUser = user;
+      route();
+    });
+    var existing = txidAuth.getUser();
+    if (existing && !currentUser) {
+      currentUser = existing;
+      route();
+    }
+  }
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', registerAuth);
+} else {
+  registerAuth();
 }
 
 // ── Main view ──
@@ -563,7 +575,12 @@ function renderProfile(username) {
 
 // ── CTA login trigger ──
 document.getElementById('cta-login')?.addEventListener('click', function () {
-  if (window.txidAuth) txidAuth.openLogin();
+  if (currentUser) {
+    renderMain();
+    document.getElementById('app')?.scrollIntoView({ behavior: 'smooth' });
+  } else if (window.txidAuth) {
+    txidAuth.openLogin();
+  }
 });
 
 // ── Event listeners ──
@@ -622,6 +639,18 @@ function updateHamburger() {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
 }
+
+// ── Price card click → login or register ──
+document.querySelectorAll('#pricing .price-card').forEach(function (card) {
+  card.addEventListener('click', function () {
+    if (currentUser) {
+      renderMain();
+      document.getElementById('app')?.scrollIntoView({ behavior: 'smooth' });
+    } else if (window.txidAuth) {
+      txidAuth.openLogin();
+    }
+  });
+});
 
 // Initial route
 route();
