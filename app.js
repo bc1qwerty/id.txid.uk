@@ -34,6 +34,13 @@ var T = {
     price_per_year: 'sats/년',
     light_mode: '라이트 모드로 전환',
     dark_mode: '다크 모드로 전환',
+    stats_count: '명이 인증 완료',
+    directory: '사용자 디렉토리',
+    directory_desc: 'txid.uk에서 인증된 Nostr 사용자 목록',
+    directory_empty: '아직 등록된 사용자가 없습니다.',
+    preview_label: 'Nostr 클라이언트에서 이렇게 보입니다',
+    view_directory: '전체 사용자 보기',
+    back_home: '← 돌아가기',
   },
   en: {
     nip05: 'NIP-05 Verification', nip05_desc: 'Nostr verification @txid.uk',
@@ -66,6 +73,13 @@ var T = {
     price_per_year: 'sats/year',
     light_mode: 'Switch to light mode',
     dark_mode: 'Switch to dark mode',
+    stats_count: 'verified identities',
+    directory: 'User Directory',
+    directory_desc: 'Verified Nostr users on txid.uk',
+    directory_empty: 'No registered users yet.',
+    preview_label: 'How it looks in Nostr clients',
+    view_directory: 'View all users',
+    back_home: '← Back',
   },
   ja: {
     nip05: 'NIP-05認証', nip05_desc: 'Nostr認証アドレス @txid.uk',
@@ -98,6 +112,13 @@ var T = {
     price_per_year: 'sats/年',
     light_mode: 'ライトモードに切替',
     dark_mode: 'ダークモードに切替',
+    stats_count: '件の認証済みID',
+    directory: 'ユーザーディレクトリ',
+    directory_desc: 'txid.ukで認証されたNostrユーザー',
+    directory_empty: '登録ユーザーはまだいません。',
+    preview_label: 'Nostrクライアントでの表示',
+    view_directory: '全ユーザーを見る',
+    back_home: '← 戻る',
   },
 };
 function t(key) { return (T[lang] && T[lang][key]) || T.en[key] || key; }
@@ -177,7 +198,9 @@ var currentUser = null;
 
 function route() {
   var hash = location.hash || '#/';
-  if (hash.startsWith('#/u/')) {
+  if (hash === '#/directory') {
+    renderDirectory();
+  } else if (hash.startsWith('#/u/')) {
     var username = decodeURIComponent(hash.slice(4));
     renderProfile(username);
   } else {
@@ -213,16 +236,22 @@ function renderMain() {
   var cta = document.getElementById('cta-login');
   var pricing = document.getElementById('pricing');
 
+  var statsBar = document.getElementById('stats-bar');
+
   if (!currentUser) {
     // Not logged in: show static landing
     app.innerHTML = '';
     if (cta) cta.classList.remove('hidden');
     if (pricing) pricing.classList.remove('hidden');
+    if (statsBar) statsBar.classList.remove('hidden');
+    loadStats();
     return;
   }
 
   // Logged in: hide CTA, keep pricing visible
   if (cta) cta.classList.add('hidden');
+  if (statsBar) statsBar.classList.remove('hidden');
+  loadStats();
   app.innerHTML = '<div class="nip05-card"><div style="text-align:center;color:var(--text3);padding:20px">...</div></div>';
   loadNip05Management();
 }
@@ -343,23 +372,41 @@ function renderRegisterForm(container) {
     '<button id="nip05-reg-btn" class="btn">' + t('nip05_register') + '</button>' +
     '</div>' +
     '<div id="nip05-status" class="form-status"></div>' +
+    '<div id="nip05-preview" class="nip05-preview hidden"></div>' +
     '</div>';
 
   var input = document.getElementById('nip05-input');
   var priceEl = document.getElementById('nip05-price');
   var btn = document.getElementById('nip05-reg-btn');
   var status = document.getElementById('nip05-status');
+  var preview = document.getElementById('nip05-preview');
 
-  // Realtime price display
+  // Realtime price display + preview
   input.addEventListener('input', function () {
     var val = input.value.toLowerCase().trim();
-    if (val.length >= 1) {
+    if (val.length >= 3 && /^[a-z0-9][a-z0-9_-]*[a-z0-9]$/.test(val)) {
       var original = getOriginalPrice(val);
       var discount = getPriceSats(val);
       priceEl.innerHTML = '<span class="price-original">' + original.toLocaleString() + '</span> <span class="price-discount">' + discount.toLocaleString() + ' ' + t('price_per_year') + '</span>';
       priceEl.style.opacity = '1';
+      preview.classList.remove('hidden');
+      preview.innerHTML = '<div class="preview-label">' + t('preview_label') + '</div>' +
+        '<div class="preview-card">' +
+        '<div class="preview-avatar">' + esc(val.charAt(0).toUpperCase()) + '</div>' +
+        '<div class="preview-info">' +
+        '<div class="preview-name">' + esc(val) + ' <span class="preview-check">&#x2713;</span></div>' +
+        '<div class="preview-nip05">' + esc(val) + '@txid.uk</div>' +
+        '</div>' +
+        '</div>';
+    } else if (val.length >= 1) {
+      var original = getOriginalPrice(val);
+      var discount = getPriceSats(val);
+      priceEl.innerHTML = '<span class="price-original">' + original.toLocaleString() + '</span> <span class="price-discount">' + discount.toLocaleString() + ' ' + t('price_per_year') + '</span>';
+      priceEl.style.opacity = '1';
+      preview.classList.add('hidden');
     } else {
       priceEl.innerHTML = '';
+      preview.classList.add('hidden');
     }
   });
 
@@ -494,6 +541,62 @@ function startRenewal(container, username) {
 
   document.getElementById('nip05-renew-cancel').addEventListener('click', function () {
     loadNip05Management();
+  });
+}
+
+// ── Stats counter ──
+var _statsCache = null;
+function loadStats() {
+  var el = document.getElementById('stats-count');
+  if (!el) return;
+  if (_statsCache !== null) { el.textContent = _statsCache; return; }
+  api('/.well-known/nostr.json').then(function (data) {
+    var count = Object.keys(data.names || {}).length;
+    _statsCache = count;
+    el.textContent = count;
+  }).catch(function () {});
+}
+
+// ── User Directory ──
+function renderDirectory() {
+  var app = document.getElementById('app');
+  var cta = document.getElementById('cta-login');
+  var pricing = document.getElementById('pricing');
+  if (cta) cta.classList.add('hidden');
+  if (pricing) pricing.classList.add('hidden');
+  var statsBar = document.getElementById('stats-bar');
+  if (statsBar) statsBar.classList.add('hidden');
+
+  app.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3)">...</div>';
+
+  api('/.well-known/nostr.json').then(function (data) {
+    var names = data.names || {};
+    var users = Object.keys(names).sort();
+
+    if (users.length === 0) {
+      app.innerHTML = '<div class="profile-not-found"><div>' + t('directory_empty') + '</div>' +
+        '<div style="margin-top:16px"><a href="#/" class="btn secondary">' + t('back_home') + '</a></div></div>';
+      return;
+    }
+
+    var cards = users.map(function (u) {
+      return '<a href="#/u/' + esc(u) + '" class="dir-card">' +
+        '<span class="dir-check">&#x2713;</span>' +
+        '<span class="dir-name">' + esc(u) + '<span class="dir-domain">@txid.uk</span></span>' +
+        '</a>';
+    }).join('');
+
+    app.innerHTML = '<div class="dir-page">' +
+      '<div class="dir-header">' +
+      '<a href="#/" class="dir-back">' + t('back_home') + '</a>' +
+      '<h2>' + t('directory') + ' <span class="badge badge-green">' + users.length + '</span></h2>' +
+      '<p class="dir-desc">' + t('directory_desc') + '</p>' +
+      '</div>' +
+      '<div class="dir-grid">' + cards + '</div>' +
+      '</div>';
+  }).catch(function () {
+    app.innerHTML = '<div class="profile-not-found"><div>Error loading directory</div>' +
+      '<div style="margin-top:16px"><a href="#/" class="btn secondary">' + t('back_home') + '</a></div></div>';
   });
 }
 
