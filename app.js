@@ -74,12 +74,8 @@ var T = {
     account_nostr_keys: 'Nostr 키',
     account_sessions: '세션 관리',
     account_export: '데이터 내보내기',
-    account_avatar: '프로필 사진',
-    account_avatar_upload: '사진 업로드',
-    account_avatar_remove: '사진 삭제',
-    account_avatar_hint: '최대 2MB, 정사각형 권장',
     account_nickname: '닉네임',
-    account_nickname_ph: '닉네임 입력 (최대 30자)',
+    account_nickname_ph: '닉네임 입력 (최대 10자)',
     account_save: '저장',
     account_saved: '저장됨!',
     account_managing: '개 주소 관리 중',
@@ -88,6 +84,9 @@ var T = {
     account_pages: '페이지 학습',
     account_no_data: '데이터 없음',
     account_nip05_manage: 'NIP-05 관리',
+    level_badge: '레벨 배지',
+    level_badge_desc: '게시글·댓글에 레벨 표시',
+    level: '레벨',
   },
   en: {
     nip05: 'NIP-05 Verification', nip05_desc: 'Nostr verification @txid.uk',
@@ -160,12 +159,8 @@ var T = {
     account_nostr_keys: 'Nostr Keys',
     account_sessions: 'Sessions',
     account_export: 'Export Data',
-    account_avatar: 'Profile Photo',
-    account_avatar_upload: 'Upload Photo',
-    account_avatar_remove: 'Remove Photo',
-    account_avatar_hint: 'Max 2MB, square recommended',
     account_nickname: 'Nickname',
-    account_nickname_ph: 'Enter nickname (max 30)',
+    account_nickname_ph: 'Enter nickname (max 10)',
     account_save: 'Save',
     account_saved: 'Saved!',
     account_managing: ' addresses managed',
@@ -174,6 +169,9 @@ var T = {
     account_pages: 'pages learned',
     account_no_data: 'No data',
     account_nip05_manage: 'NIP-05 Management',
+    level_badge: 'Level Badge',
+    level_badge_desc: 'Show level on posts & comments',
+    level: 'Level',
   },
   ja: {
     nip05: 'NIP-05認証', nip05_desc: 'Nostr認証アドレス @txid.uk',
@@ -246,12 +244,8 @@ var T = {
     account_nostr_keys: 'Nostrキー',
     account_sessions: 'セッション',
     account_export: 'データエクスポート',
-    account_avatar: 'プロフィール写真',
-    account_avatar_upload: '写真アップロード',
-    account_avatar_remove: '写真を削除',
-    account_avatar_hint: '最大2MB、正方形推奨',
     account_nickname: 'ニックネーム',
-    account_nickname_ph: 'ニックネーム入力 (最大30文字)',
+    account_nickname_ph: 'ニックネーム入力 (最大10文字)',
     account_save: '保存',
     account_saved: '保存済み!',
     account_managing: '個のアドレス管理中',
@@ -260,24 +254,92 @@ var T = {
     account_pages: 'ページ学習',
     account_no_data: 'データなし',
     account_nip05_manage: 'NIP-05管理',
+    level_badge: 'レベルバッジ',
+    level_badge_desc: '投稿・コメントにレベルを表示',
+    level: 'レベル',
   },
 };
 function t(key) { return (T[lang] && T[lang][key]) || T.en[key] || key; }
 function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 
+// ── CSRF token management ──
+var _csrfToken = null;
+
+function getCsrfToken() {
+  // 1. Try the auth SDK's token (most up-to-date)
+  if (window.txidAuth && typeof txidAuth.getCsrfToken === 'function') {
+    var sdkToken = txidAuth.getCsrfToken();
+    if (sdkToken) return sdkToken;
+  }
+  // 2. Fallback to locally stored token
+  if (_csrfToken) return _csrfToken;
+  // 3. Fallback to _csrf cookie
+  var match = document.cookie.match(/(?:^|;\s*)_csrf=([^;]+)/);
+  return match ? match[1] : null;
+}
+
+function setCsrfToken(token) {
+  if (token) _csrfToken = token;
+}
+
+// ── API response validation ──
+var API_RESPONSE_SCHEMAS = {
+  '/auth/me': function (d) { return typeof d === 'object' && d !== null && typeof d.authenticated === 'boolean'; },
+  '/nip05/my': function (d) { return typeof d === 'object' && d !== null && typeof d.registered === 'boolean'; },
+  '/account/summary': function (d) { return typeof d === 'object' && d !== null && typeof d.user === 'object' && d.user !== null && typeof d.user.pubkey === 'string'; },
+  '/.well-known/nostr.json': function (d) { return typeof d === 'object' && d !== null && typeof d.names === 'object'; },
+};
+
+function validateApiResponse(path, data) {
+  // Find matching schema by path prefix
+  var schemaKey = Object.keys(API_RESPONSE_SCHEMAS).find(function (key) {
+    return path === key || path.indexOf(key) === 0;
+  });
+  if (schemaKey) {
+    if (!API_RESPONSE_SCHEMAS[schemaKey](data)) {
+      throw new Error('Unexpected response structure from ' + path);
+    }
+  }
+  // General safety: response must be an object (not string, number, etc.)
+  if (typeof data !== 'object' || data === null) {
+    throw new Error('Invalid response format');
+  }
+  return data;
+}
+
 // ── API helper ──
 function api(path, opts) {
+  var mergedHeaders = Object.assign({}, opts && opts.headers);
+
+  // Inject CSRF token for state-changing requests (POST, PUT, DELETE, PATCH)
+  var method = (opts && opts.method) ? opts.method.toUpperCase() : 'GET';
+  if (method !== 'GET' && method !== 'HEAD' && method !== 'OPTIONS') {
+    var token = getCsrfToken();
+    if (token) {
+      mergedHeaders['X-CSRF-Token'] = token;
+    }
+  }
+
   return fetch('https://api.txid.uk' + path, Object.assign({
     credentials: 'include',
   }, opts, {
-    headers: Object.assign({}, opts && opts.headers),
+    headers: mergedHeaders,
   })).then(function (res) {
+    // Extract CSRF token from response header if server sends one
+    var newCsrf = res.headers.get('X-CSRF-Token');
+    if (newCsrf) setCsrfToken(newCsrf);
+
     if (!res.ok) {
       return res.json().catch(function () { return {}; }).then(function (e) {
         throw new Error(e.error || res.statusText);
       });
     }
     return res.json();
+  }).then(function (data) {
+    // Update CSRF token if present in response body (e.g., /auth/me)
+    if (data && data.csrfToken) setCsrfToken(data.csrfToken);
+    // Validate response structure
+    return validateApiResponse(path, data);
   });
 }
 
@@ -755,10 +817,127 @@ function showPayment(container, data) {
         clearInterval(pollTimer);
         var ps = document.getElementById('nip05-poll-status');
         if (ps) { ps.innerHTML = '&#x2713; ' + t('nip05_success'); ps.className = 'poll-status paid'; }
-        setTimeout(function () { loadNip05Management(); }, 1500);
+        // Show setup guide modal after a brief delay
+        setTimeout(function () { showNip05SetupGuide(data.identifier || (data.username + '@txid.uk')); }, 800);
+        setTimeout(function () { loadNip05Management(); }, 2500);
       }
     }).catch(function () { });
   }, 3000);
+}
+
+// ── NIP-05 Setup Guide Modal (3 languages) ──
+function showNip05SetupGuide(identifier) {
+  var existing = document.getElementById('nip05-setup-guide');
+  if (existing) existing.remove();
+
+  var GT = {
+    ko: {
+      title: 'NIP-05 설정 가이드',
+      subtitle: '축하합니다! 이제 Nostr 클라이언트에서 인증을 설정하세요.',
+      step1: 'Nostr 클라이언트를 여세요',
+      step1_desc: 'Damus, Primal, Amethyst 등',
+      step2: '프로필 설정으로 이동',
+      step2_desc: '프로필 → 편집 → NIP-05 항목',
+      step3: '아래 주소를 입력하세요',
+      step4: '저장하면 인증 완료!',
+      step4_desc: '프로필에 인증 배지가 표시됩니다.',
+      clients: '인기 Nostr 클라이언트',
+      dismiss: '확인했습니다!',
+    },
+    en: {
+      title: 'NIP-05 Setup Guide',
+      subtitle: 'Congratulations! Now set up verification in your Nostr client.',
+      step1: 'Open your Nostr client',
+      step1_desc: 'Damus, Primal, Amethyst, etc.',
+      step2: 'Go to Profile Settings',
+      step2_desc: 'Profile → Edit → NIP-05 field',
+      step3: 'Enter your NIP-05 address',
+      step4: 'Save — you\'re verified!',
+      step4_desc: 'A verification badge will appear on your profile.',
+      clients: 'Popular Nostr Clients',
+      dismiss: 'Got it!',
+    },
+    ja: {
+      title: 'NIP-05 設定ガイド',
+      subtitle: 'おめでとうございます！Nostrクライアントで認証を設定しましょう。',
+      step1: 'Nostrクライアントを開く',
+      step1_desc: 'Damus、Primal、Amethyst など',
+      step2: 'プロフィール設定へ移動',
+      step2_desc: 'プロフィール → 編集 → NIP-05 項目',
+      step3: 'NIP-05アドレスを入力',
+      step4: '保存すれば認証完了！',
+      step4_desc: 'プロフィールに認証バッジが表示されます。',
+      clients: '人気Nostrクライアント',
+      dismiss: '了解しました！',
+    },
+  };
+  var g = GT[lang] || GT.en;
+
+  var CLIENTS = [
+    { name: 'Damus', url: 'https://damus.io', platform: 'iOS' },
+    { name: 'Primal', url: 'https://primal.net', platform: 'Web / iOS / Android' },
+    { name: 'Amethyst', url: 'https://play.google.com/store/apps/details?id=com.vitorpamplona.amethyst', platform: 'Android' },
+    { name: 'Snort', url: 'https://snort.social', platform: 'Web' },
+    { name: 'Nostrudel', url: 'https://nostrudel.ninja', platform: 'Web' },
+  ];
+
+  var clientLinks = CLIENTS.map(function (c) {
+    return '<a href="' + esc(c.url) + '" target="_blank" rel="noopener noreferrer" class="setup-client-link">' +
+      '<span class="setup-client-name">' + esc(c.name) + '</span>' +
+      '<span class="setup-client-platform">' + esc(c.platform) + '</span>' +
+    '</a>';
+  }).join('');
+
+  var overlay = document.createElement('div');
+  overlay.id = 'nip05-setup-guide';
+  overlay.className = 'setup-overlay';
+  overlay.innerHTML =
+    '<div class="setup-modal">' +
+      '<div class="setup-header">' +
+        '<div class="setup-success-icon">&#x2713;</div>' +
+        '<h2 class="setup-title">' + esc(g.title) + '</h2>' +
+        '<p class="setup-subtitle">' + esc(g.subtitle) + '</p>' +
+      '</div>' +
+      '<div class="setup-steps">' +
+        '<div class="setup-step"><span class="setup-step-num">1</span><div><strong>' + esc(g.step1) + '</strong><div class="setup-step-desc">' + esc(g.step1_desc) + '</div></div></div>' +
+        '<div class="setup-step"><span class="setup-step-num">2</span><div><strong>' + esc(g.step2) + '</strong><div class="setup-step-desc">' + esc(g.step2_desc) + '</div></div></div>' +
+        '<div class="setup-step"><span class="setup-step-num">3</span><div><strong>' + esc(g.step3) + '</strong>' +
+          '<div class="setup-identifier" id="setup-id-copy" title="Click to copy">' + esc(identifier) + '</div>' +
+        '</div></div>' +
+        '<div class="setup-step"><span class="setup-step-num">4</span><div><strong>' + esc(g.step4) + '</strong><div class="setup-step-desc">' + esc(g.step4_desc) + '</div></div></div>' +
+      '</div>' +
+      '<div class="setup-clients">' +
+        '<div class="setup-clients-title">' + esc(g.clients) + '</div>' +
+        '<div class="setup-clients-grid">' + clientLinks + '</div>' +
+      '</div>' +
+      '<button class="btn setup-dismiss" id="setup-dismiss-btn">' + esc(g.dismiss) + '</button>' +
+    '</div>';
+
+  document.body.appendChild(overlay);
+
+  // Animate in
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () { overlay.classList.add('setup-visible'); });
+  });
+
+  // Copy identifier
+  document.getElementById('setup-id-copy').addEventListener('click', function () {
+    navigator.clipboard.writeText(identifier);
+    this.textContent = t('copied');
+    var el = this;
+    setTimeout(function () { el.textContent = identifier; }, 1500);
+  });
+
+  // Dismiss
+  function dismissGuide() {
+    overlay.classList.remove('setup-visible');
+    setTimeout(function () { overlay.remove(); }, 300);
+  }
+
+  document.getElementById('setup-dismiss-btn').addEventListener('click', dismissGuide);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) dismissGuide();
+  });
 }
 
 function startRenewal(container, username) {
@@ -876,10 +1055,9 @@ function renderAccount() {
     var joinedDate = u.createdAt ? new Date(u.createdAt * 1000).toLocaleDateString() : '-';
     var lastLoginDate = u.lastLogin ? new Date(u.lastLogin * 1000).toLocaleDateString() : '-';
 
-    // Avatar
-    var avatarHtml = u.avatarUrl
-      ? '<img src="' + esc(u.avatarUrl) + '" class="acct-avatar-lg" alt="">'
-      : '<div class="acct-avatar-placeholder">' + esc((u.displayName || u.pubkey.slice(0, 2)).slice(0, 2).toUpperCase()) + '</div>';
+    // Avatar — icon only (no photo upload)
+    var initials = (u.displayName || u.pubkey.slice(0, 2)).slice(0, 2).toUpperCase();
+    var avatarHtml = '<div class="acct-avatar-placeholder">' + esc(initials) + '</div>';
 
     // Display name
     var displayName = u.displayName || pubkeyShort;
@@ -937,13 +1115,56 @@ function renderAccount() {
       '<div class="acct-row"><span class="acct-label">' + t('account_joined') + '</span><span class="acct-value">' + joinedDate + '</span></div>' +
       '<div class="acct-row"><span class="acct-label">' + t('account_last_login') + '</span><span class="acct-value">' + lastLoginDate + '</span></div>' +
       nip05Html +
+      '<div class="acct-row"><span class="acct-label">' + t('level') + '</span><span class="acct-value">Lv.' + (u.level || 1) + ' <span style="color:var(--text3);font-size:.75rem">(' + (u.points || 0) + ' XP)</span></span></div>' +
+      '</div>' +
+      '<div class="acct-toggle-section">' +
+        '<div class="acct-toggle-row">' +
+          '<div class="acct-toggle-info">' +
+            '<span class="acct-toggle-label">' + t('level_badge') + '</span>' +
+            '<span class="acct-toggle-desc">' + t('level_badge_desc') + '</span>' +
+          '</div>' +
+          '<label class="toggle-switch">' +
+            '<input type="checkbox" id="badge-toggle"' + (u.showLevelBadge ? ' checked' : '') + '>' +
+            '<span class="toggle-slider"></span>' +
+          '</label>' +
+        '</div>' +
       '</div>' +
       '<div class="acct-cards">' + learnHtml + portfolioHtml + communityHtml + '</div>' +
       '<div class="acct-actions">' +
       (data.nip05 && data.nip05.status === 'active' ? '<a href="#/" class="btn secondary" style="text-decoration:none">' + t('account_nip05_manage') + '</a>' : '') +
-      '<a href="#/account/edit" class="btn secondary" style="text-decoration:none">' + t('account_avatar') + '</a>' +
+      '<a href="#/account/edit" class="btn secondary" style="text-decoration:none">' + t('account_edit') + '</a>' +
       '</div>' +
       '</div>';
+
+    // Badge toggle handler
+    var badgeToggle = document.getElementById('badge-toggle');
+    if (badgeToggle) {
+      badgeToggle.addEventListener('change', function () {
+        var show = this.checked;
+        var toggle = this;
+        toggle.disabled = true;
+        api('/auth/me/level-badge', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ show: show }),
+        }).then(function (res) {
+          toggle.disabled = false;
+          var row = toggle.closest('.acct-toggle-row');
+          var status = row.querySelector('.acct-toggle-status');
+          if (!status) {
+            status = document.createElement('span');
+            status.className = 'acct-toggle-status';
+            row.appendChild(status);
+          }
+          status.textContent = res.showLevelBadge ? 'Lv.' + res.level : 'OFF';
+          status.style.color = res.showLevelBadge ? 'var(--green)' : 'var(--text3)';
+          setTimeout(function () { status.textContent = ''; }, 2000);
+        }).catch(function () {
+          toggle.checked = !show;
+          toggle.disabled = false;
+        });
+      });
+    }
 
     // Pubkey copy
     document.getElementById('acct-pubkey').addEventListener('click', function () {
@@ -979,119 +1200,24 @@ function renderAccountEdit() {
   api('/account/summary').then(function (data) {
     var u = data.user;
 
-    // Avatar section
-    var avatarPreview = u.avatarUrl
-      ? '<img src="' + esc(u.avatarUrl) + '" class="acct-avatar-lg" id="avatar-preview" alt="">'
-      : '<div class="acct-avatar-placeholder" id="avatar-preview">' + esc((u.displayName || u.pubkey.slice(0, 2)).slice(0, 2).toUpperCase()) + '</div>';
+    // Avatar icon (no photo upload)
+    var initials = (u.displayName || u.pubkey.slice(0, 2)).slice(0, 2).toUpperCase();
 
     app.innerHTML = '<div class="acct-edit">' +
       '<div class="acct-edit-header">' +
       '<a href="#/account" class="dir-back">' + t('back_home') + '</a>' +
       '<h2>' + t('account_edit') + '</h2>' +
       '</div>' +
-      // Avatar section
-      '<div class="acct-edit-section">' +
-      '<div class="acct-edit-label">' + t('account_avatar') + '</div>' +
-      '<div class="acct-avatar-edit">' +
-      avatarPreview +
-      '<div class="acct-avatar-btns">' +
-      '<label class="btn secondary acct-upload-label">' + t('account_avatar_upload') +
-      '<input type="file" accept="image/*" id="avatar-input" style="display:none">' +
-      '</label>' +
-      (u.avatarUrl ? '<button class="btn secondary" id="avatar-remove">' + t('account_avatar_remove') + '</button>' : '') +
-      '</div>' +
-      '<div class="form-hint">' + t('account_avatar_hint') + '</div>' +
-      '<div id="avatar-status" class="form-status"></div>' +
-      '</div>' +
-      '</div>' +
       // Nickname section
       '<div class="acct-edit-section">' +
       '<div class="acct-edit-label">' + t('account_nickname') + '</div>' +
       '<div class="form-row">' +
-      '<input id="nickname-input" class="input" value="' + esc(u.displayName || '') + '" placeholder="' + t('account_nickname_ph') + '" maxlength="30">' +
+      '<input id="nickname-input" class="input" value="' + esc(u.displayName || '') + '" placeholder="' + t('account_nickname_ph') + '" maxlength="10">' +
       '<button id="nickname-save" class="btn">' + t('account_save') + '</button>' +
       '</div>' +
       '<div id="nickname-status" class="form-status"></div>' +
       '</div>' +
       '</div>';
-
-    // Avatar upload handler
-    document.getElementById('avatar-input').addEventListener('change', function () {
-      var file = this.files[0];
-      if (!file) return;
-      if (file.size > 2 * 1024 * 1024) {
-        document.getElementById('avatar-status').textContent = 'File too large (max 2MB)';
-        document.getElementById('avatar-status').className = 'form-status error';
-        return;
-      }
-
-      var statusEl = document.getElementById('avatar-status');
-      statusEl.textContent = '...';
-      statusEl.className = 'form-status';
-
-      var formData = new FormData();
-      formData.append('avatar', file);
-
-      fetch('https://api.txid.uk/account/avatar', {
-        method: 'PUT',
-        credentials: 'include',
-        body: formData,
-      }).then(function (res) {
-        if (!res.ok) throw new Error('Upload failed');
-        return res.json();
-      }).then(function (result) {
-        statusEl.textContent = t('account_saved');
-        statusEl.className = 'form-status success';
-
-        // Update preview
-        var previewEl = document.getElementById('avatar-preview');
-        if (previewEl.tagName === 'IMG') {
-          previewEl.src = result.avatarUrl;
-        } else {
-          var img = document.createElement('img');
-          img.src = result.avatarUrl;
-          img.className = 'acct-avatar-lg';
-          img.id = 'avatar-preview';
-          img.alt = '';
-          previewEl.replaceWith(img);
-        }
-
-        // Update global auth widget
-        if (window.txidAuth && txidAuth.updateAvatarUrl) {
-          txidAuth.updateAvatarUrl(result.avatarUrl);
-        }
-      }).catch(function (e) {
-        statusEl.textContent = e.message || 'Error';
-        statusEl.className = 'form-status error';
-      });
-    });
-
-    // Avatar remove handler
-    var removeBtn = document.getElementById('avatar-remove');
-    if (removeBtn) {
-      removeBtn.addEventListener('click', function () {
-        var statusEl = document.getElementById('avatar-status');
-        statusEl.textContent = '...';
-        api('/account/avatar', { method: 'DELETE' }).then(function () {
-          statusEl.textContent = t('account_saved');
-          statusEl.className = 'form-status success';
-          // Replace with placeholder
-          var previewEl = document.getElementById('avatar-preview');
-          var placeholder = document.createElement('div');
-          placeholder.className = 'acct-avatar-placeholder';
-          placeholder.id = 'avatar-preview';
-          placeholder.textContent = (u.displayName || u.pubkey.slice(0, 2)).slice(0, 2).toUpperCase();
-          previewEl.replaceWith(placeholder);
-          removeBtn.remove();
-          if (window.txidAuth && txidAuth.updateAvatarUrl) {
-            txidAuth.updateAvatarUrl(null);
-          }
-        }).catch(function (e) {
-          statusEl.textContent = e.message || 'Error';
-          statusEl.className = 'form-status error';
-        });
-      });
-    }
 
     // Nickname save handler
     document.getElementById('nickname-save').addEventListener('click', function () {
